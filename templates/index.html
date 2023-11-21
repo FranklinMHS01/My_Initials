@@ -1,0 +1,200 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>My Initials In Map</title>
+
+    <!-- Mapbox library imports -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:wght@600&family=Young+Serif&display=swap"
+        rel="stylesheet">
+
+    <style>
+        h1 {
+            padding-bottom: 10px;
+            font-family: 'Kaushan Script', cursive;
+            font-size: 50px;
+            border-bottom:solid black 5px;
+            width: 50%;
+            
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            border: solid 1px black;
+            border-radius: 10px;
+
+        }
+
+        .map {
+            border-radius: 10px;
+            box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+
+    <script>
+        let map
+
+        let long_default = -140
+        let lat_default = 20
+
+        let long_default_3 = -125
+
+        let long_default_2 = -110
+
+        let lat_default_2 = 20
+
+        function f_center() {
+            for (i = 0; i <= 10; i++) {
+                let lat = lat_default + i
+                new mapboxgl.Marker()
+                    .setLngLat([long_default, lat])
+                    .addTo(map);
+
+                if (i == 10) {
+                    for (k = 0; k <= 7; k++) {
+                        let long = long_default + k
+                        new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+                    }
+                }
+
+                if (i == 5) {
+                    for (k = 0; k <= 5; k++) {
+                        let long = long_default + k
+                        new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+                    }
+                }
+            }
+        }
+
+        function s_center() {
+            for (i = 5; i <= 10; i++) {
+                let lat = lat_default + i
+                new mapboxgl.Marker()
+                    .setLngLat([long_default_3, lat])
+                    .addTo(map);
+
+                if (i == 10) {
+                    for (k = 0; k <= 7; k++) {
+                        let long = long_default_3 + k
+                        new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+                    }
+                }
+
+                if (i == 5) {
+                    for (k = 0; k <= 7; k++) {
+                        let long = long_default_3 + k
+                        new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+
+                        if (k == 7) {
+                            for (j = 0; j <= 5; j++) {
+                                let lat = lat_default + j
+                                new mapboxgl.Marker()
+                                    .setLngLat([long, lat])
+                                    .addTo(map);
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (i = 0; i <= 7; i++) {
+                let long = long_default_3 + i
+                new mapboxgl.Marker()
+                    .setLngLat([long, lat_default_2])
+                    .addTo(map);
+            }
+        }
+
+        function f2_center() {
+            for (i = 0; i <= 10; i++) {
+                let lat = lat_default + i
+                new mapboxgl.Marker()
+                    .setLngLat([long_default_2, lat])
+                    .addTo(map);
+
+                if (i == 10) {
+                    for (k = 0; k <= 7; k++) {
+                        let long = long_default_2 + k
+                        new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+                    }
+                }
+
+                if (i == 5) {
+                    for (k = 0; k <= 5; k++) {
+                        let long = long_default_2 + k
+                        new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+                    }
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            mapboxgl.accessToken = "pk.eyJ1Ijoibm9jdHlzcyIsImEiOiJjbDh2aTFqY2gwZTlsM3ZxcTRnOGZ0b3hmIn0.CDy8vkgqrviTRnZ-0SXeow";
+            map = new mapboxgl.Map({
+                container: "map", // container ID
+                center: [long_default_3, lat_default], // starting position [lng, lat]
+                zoom: 3, // starting zoom
+                style: "mapbox://styles/mapbox/streets-v11", // style URL or style object
+                hash: true, // sync `center`, `zoom`, `pitch`, and `bearing` with URL
+                // Use `transformRequest` to modify requests that begin with `http://myHost`.
+                transformRequest: (url, resourceType) => {
+                    if (resourceType === "Source" && url.startsWith("http://myHost")) {
+                        return {
+                            url: url.replace("http", "https"),
+                            headers: { "my-custom-header": true },
+                            credentials: "include", // Include cookies for cross-origin requests
+                        };
+                    }
+                },
+            });
+            const nav = new mapboxgl.NavigationControl({
+                visualizePitch: true,
+            });
+            map.addControl(nav, "bottom-right");
+
+            const marker = new mapboxgl.Marker()
+                .setLngLat([long_default, lat_default])
+                .addTo(map);
+
+            f_center()
+            f2_center()
+            s_center()
+        });
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <h1>My Initials</h1>
+        <div class="map">
+            <div id="map"></div>
+        </div>
+    </center>
+</body>
+
+</html>
