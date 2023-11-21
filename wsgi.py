@@ -1,12 +1,21 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from pymongo import MongoClient
-# from app import app
+
+import os 
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+
+dotenv_path = join(dirname(__file__),'.env_initials')
+load_dotenv(dotenv_path)
+
+MONGODB_URI = os.environ.get('MONGODB_URI')
+DB_NAME = os.environ.get('DB_NAME')
+
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
 
 app = Flask(__name__)
-
-cxn_str = 'mongodb+srv://franklinchang08:123456788@felix08.jreclb8.mongodb.net/'
-client = MongoClient(cxn_str)
-db = client.db_restaurant
 
 @app.route('/')
 def main():
